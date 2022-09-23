@@ -298,6 +298,17 @@ func (l List[V]) Zip(other List[V]) ([]List[V], error) {
 	return zipped, nil
 }
 
+// Interface return List[V] as slice of interfaces.
+func (l List[V]) Interface() []interface{} {
+	newlist := make([]interface{}, 0, l.Len())
+
+	for _, v := range l.values {
+		newlist = append(newlist, v)
+	}
+
+	return newlist
+}
+
 // Fill create the List[V] from given V by the specified count.
 func Fill[V comparable](symbol V, count int) List[V] {
 	newlist := make([]V, 0, count)

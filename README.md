@@ -32,6 +32,7 @@
   - [JoinToString](#jointostring)
   - [Fill](#fill)
   - [Sequence](#sequence)
+  - [Interface](#interface)
 - [Testing](#testing)
 - [License](#license)
 
@@ -462,6 +463,23 @@ import (
 
 func main() {
   fmt.Println(golist.Sequence("$", 3, 1).JoinToString(", ")) // "$1, $2, $3"
+}
+```
+
+### Interface
+
+Converts the `List[V]` to `[]interface{}`:
+
+```go
+package main
+
+import (
+  "fmt"
+  "github.com/kafkiansky/golist"
+)
+
+func main() {
+  fmt.Println(golist.Var(0, 1, 2).Interface()) // []interface{}{0, 1, 2}
 }
 ```
 

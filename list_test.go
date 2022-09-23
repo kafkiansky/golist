@@ -133,3 +133,7 @@ func TestSequence(t *testing.T) {
 	assert.Equal(t, "$1, $2, $3", Sequence("$", 3, 1).JoinToString(", "))
 	assert.Equal(t, "$4, $5, $6", Sequence("$", 3, 4).JoinToString(", "))
 }
+
+func TestListInterface(t *testing.T) {
+	assert.Equal(t, []interface{}{1, 2, 3}, Var(1, 2, 3).Interface())
+}

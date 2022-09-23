@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"golang.org/x/exp/constraints"
 	"math/rand"
+	"strconv"
 	"strings"
 	"sync"
 	"time"
@@ -193,6 +194,22 @@ func (l List[V]) Join(lists ...List[V]) List[V] {
 	return newList(newlist)
 }
 
+// JoinToString joins the list elements if V is type of string. Otherwise, skip the value.
+func (l List[V]) JoinToString(separator string) string {
+	sparts := make([]string, 0, l.Len())
+
+	for _, v := range l.values {
+		switch vv := any(v).(type) {
+		case string:
+			sparts = append(sparts, vv)
+		default:
+			return ""
+		}
+	}
+
+	return strings.Join(sparts, separator)
+}
+
 // Nth return each nth element of the List[V].
 func (l List[V]) Nth(nth int) List[V] {
 	newlist := make([]V, 0, l.Len())
@@ -279,4 +296,28 @@ func (l List[V]) Zip(other List[V]) ([]List[V], error) {
 	}
 
 	return zipped, nil
+}
+
+// Fill create the List[V] from given V by the specified count.
+func Fill[V comparable](symbol V, count int) List[V] {
+	newlist := make([]V, 0, count)
+
+	for i := 0; i < count; i++ {
+		newlist = append(newlist, symbol)
+	}
+
+	return newList(newlist)
+}
+
+// Sequence generate the List[string] of the given symbol concatenated with index. Useful for SQL query generation.
+// In example: golist.Sequence("$", 3, 1).Values() [$1, $2, $3]
+func Sequence(symbol string, count int, start int) List[string] {
+	newlist := make([]string, 0, count)
+	end := count + start - 1
+
+	for i := start; i <= end; i++ {
+		newlist = append(newlist, symbol+strconv.Itoa(i))
+	}
+
+	return newList(newlist)
 }

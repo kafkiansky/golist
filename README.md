@@ -29,6 +29,9 @@
   - [Shuffle](#shuffle)
   - [Unique](#unique)
   - [Zip](#zip)
+  - [JoinToString](#jointostring)
+  - [Fill](#fill)
+  - [Sequence](#sequence)
 - [Testing](#testing)
 - [License](#license)
 
@@ -408,6 +411,57 @@ func main() {
   fmt.Println(l[0].Values()) // [0, 3]
   fmt.Println(l[1].Values()) // [1, 5]
   fmt.Println(l[2].Values()) // [2, 6]
+}
+```
+
+### JoinToString
+
+Joins the `List[V]` to string if `V` is type of string.
+
+```go
+package main
+
+import (
+  "fmt"
+  "github.com/kafkiansky/golist"
+)
+
+func main() {
+  fmt.Println(golist.Var("first", "second").JoinToString(", ")) // "first, second"
+}
+```
+
+### Fill
+
+Generate `List[V]` of the given `V` and provided count:
+
+```go
+package main
+
+import (
+  "fmt"
+  "github.com/kafkiansky/golist"
+)
+
+func main() {
+  fmt.Println(golist.Fill("?", 3).Values()) // [?, ?, ?]
+}
+```
+
+### Sequence
+
+Generate sequence. Useful for SQL query building:
+
+```go
+package main
+
+import (
+  "fmt"
+  "github.com/kafkiansky/golist"
+)
+
+func main() {
+  fmt.Println(golist.Sequence("$", 3, 1).JoinToString(", ")) // "$1, $2, $3"
 }
 ```
 

@@ -119,3 +119,17 @@ func TestEach(t *testing.T) {
 		return strconv.Itoa(v)
 	}).Values())
 }
+
+func TestListFill(t *testing.T) {
+	assert.Equal(t, []string{"?", "?", "?", "?", "?"}, Fill("?", 5).Values())
+}
+
+func TestListJoinToString(t *testing.T) {
+	assert.Equal(t, "?, ?, ?", Fill("?", 3).JoinToString(", "))
+	assert.Equal(t, "", Fill(1, 3).JoinToString(", "))
+}
+
+func TestSequence(t *testing.T) {
+	assert.Equal(t, "$1, $2, $3", Sequence("$", 3, 1).JoinToString(", "))
+	assert.Equal(t, "$4, $5, $6", Sequence("$", 3, 4).JoinToString(", "))
+}

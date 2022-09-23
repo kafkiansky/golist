@@ -5,16 +5,21 @@ import (
 	"golang.org/x/exp/constraints"
 	"math/rand"
 	"strings"
+	"sync"
 	"time"
 )
 
-// List represents go slice of generic values.
+// List represents go slice of generic values as concurrency safe List[V].
 type List[V comparable] struct {
+	mutex  *sync.RWMutex
 	values []V
 }
 
 func newList[V comparable](values []V) List[V] {
-	return List[V]{values: values}
+	return List[V]{
+		mutex:  &sync.RWMutex{},
+		values: values,
+	}
 }
 
 // From creates the List[V] from the given slice.
@@ -75,6 +80,9 @@ func (l List[V]) Values() []V {
 
 // First return the first element of List[V]
 func (l List[V]) First() V {
+	l.mutex.RLock()
+	defer l.mutex.RUnlock()
+
 	var v V
 
 	if l.Len() > 0 {
@@ -86,6 +94,9 @@ func (l List[V]) First() V {
 
 // Last return the last element of List[V].
 func (l List[V]) Last() V {
+	l.mutex.RLock()
+	defer l.mutex.RUnlock()
+
 	var v V
 
 	if l.Len() > 0 {
@@ -102,12 +113,17 @@ func (l List[V]) Len() int {
 
 // Add allow to add element to the List[V].
 func (l List[V]) Add(v V) List[V] {
+	l.mutex.Lock()
 	l.values = append(l.values, v)
+	l.mutex.Unlock()
 	return l
 }
 
 // Delete deletes the element from slice by index.
 func (l List[V]) Delete(index uint) List[V] {
+	l.mutex.Lock()
+	defer l.mutex.Unlock()
+
 	if l.Len() <= int(index) {
 		return l
 	}
@@ -192,12 +208,18 @@ func (l List[V]) Nth(nth int) List[V] {
 
 // Random return random element from List[V].
 func (l List[V]) Random() V {
+	l.mutex.RLock()
+	defer l.mutex.RUnlock()
+
 	rand.Seed(time.Now().Unix())
 	return l.values[rand.Intn(l.Len())]
 }
 
 // Contains check that V exists in List[V].
 func (l List[V]) Contains(v V) bool {
+	l.mutex.RLock()
+	defer l.mutex.RUnlock()
+
 	for _, lv := range l.values {
 		if lv == v {
 			return true

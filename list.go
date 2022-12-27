@@ -24,9 +24,7 @@ func newList[V comparable](values []V) List[V] {
 }
 
 // From creates the List[V] from the given slice.
-func From[V comparable](values []V) List[V] {
-	return newList(values)
-}
+func From[V comparable](values []V) List[V] { return newList(values) }
 
 // FromString split the string by separator, apply the mapper for each value and output the List[V].
 func FromString[V comparable](s string, separator string, mapper func(string) (V, bool)) List[V] {
@@ -65,19 +63,13 @@ func Each[V, E comparable](l List[V], fn func(V) E) List[E] {
 }
 
 // L alias to From.
-func L[V comparable](values []V) List[V] {
-	return From(values)
-}
+func L[V comparable](values []V) List[V] { return From(values) }
 
 // Var creates the List[V] from variadic.
-func Var[V comparable](values ...V) List[V] {
-	return L(values)
-}
+func Var[V comparable](values ...V) List[V] { return L(values) }
 
 // Values return the builtin slice of V.
-func (l List[V]) Values() []V {
-	return l.values
-}
+func (l List[V]) Values() []V { return l.values }
 
 // First return the first element of List[V]
 func (l List[V]) First() V {
@@ -108,9 +100,10 @@ func (l List[V]) Last() V {
 }
 
 // Len return actual slice len.
-func (l List[V]) Len() int {
-	return len(l.values)
-}
+func (l List[V]) Len() int { return len(l.values) }
+
+// Empty return true if len is zero.
+func (l List[V]) Empty() bool { return l.Len() == 0 }
 
 // Add allow to add element to the List[V].
 func (l List[V]) Add(v V) List[V] {

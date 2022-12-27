@@ -33,6 +33,7 @@
   - [Fill](#fill)
   - [Sequence](#sequence)
   - [Interface](#interface)
+  - [Empty](#empty)
 - [Testing](#testing)
 - [License](#license)
 
@@ -480,6 +481,24 @@ import (
 
 func main() {
   fmt.Println(golist.Var(0, 1, 2).Interface()) // []interface{}{0, 1, 2}
+}
+```
+
+### Empty
+
+Return `true` if list len is zero:
+
+```go
+package main
+
+import (
+  "fmt"
+  "github.com/kafkiansky/golist"
+)
+
+func main() {
+  fmt.Println(golist.L([]int{}).Empty()) // true
+  fmt.Println(golist.L([]int{200}).Empty()) // false
 }
 ```
 

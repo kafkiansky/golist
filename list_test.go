@@ -137,3 +137,8 @@ func TestSequence(t *testing.T) {
 func TestListInterface(t *testing.T) {
 	assert.Equal(t, []interface{}{1, 2, 3}, Var(1, 2, 3).Interface())
 }
+
+func TestListEmpty(t *testing.T) {
+	assert.True(t, Var[int]().Empty())
+	assert.False(t, L([]int{200}).Empty())
+}

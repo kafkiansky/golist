@@ -325,3 +325,14 @@ func Sequence(symbol string, count int, start int) List[string] {
 
 	return newList(newlist)
 }
+
+// Every apply the given func to each element of List[V] and return the new slice of E.
+func Every[V comparable, E any](l List[V], fn func(V) E) []E {
+	newlist := make([]E, 0, l.Len())
+
+	for _, v := range l.Values() {
+		newlist = append(newlist, fn(v))
+	}
+
+	return newlist
+}

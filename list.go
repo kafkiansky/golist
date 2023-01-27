@@ -336,3 +336,15 @@ func Every[V comparable, E any](l List[V], fn func(V) E) []E {
 
 	return newlist
 }
+
+func Between[V comparable](min, max, chunk int, f func(start, count int) V) List[V] {
+	newlist := make([]V, 0, max)
+
+	for i := min; i <= max; i++ {
+		if i%chunk == 0 {
+			newlist = append(newlist, f(i-chunk+1, chunk))
+		}
+	}
+
+	return newList(newlist)
+}
